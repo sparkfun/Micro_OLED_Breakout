@@ -53,12 +53,9 @@ const unsigned char *MicroOLED::fontsPointer[]={
 	,fontlargenumber
 };
 
-/** \brief MicroOLED screen buffer.
-
-Page buffer 64 x 48 divided by 8 = 384 bytes
-Page buffer is required because in SPI mode, the host cannot read the SSD1306's GDRAM of the controller.  This page buffer serves as a scratch RAM for graphical functions.  All drawing function will first be drawn on this page buffer, only upon calling display() function will transfer the page buffer to the actual LCD controller's memory.
+/** \brief SparkFun logo bitmap for screen buffer.
 */
-static uint8_t screenmemory [] = { 
+static uint8_t sparkfunLogoBitmap [] = {
 	/* LCD Memory organised in 64 horizontal pixel and 6 rows of byte
 	 B  B .............B  -----
 	 y  y .............y        \
@@ -168,10 +165,23 @@ MicroOLED::MicroOLED(uint8_t rst, uint8_t dc, uint8_t cs, uint8_t wr, uint8_t rd
 
 /** \brief Initialisation of MicroOLED Library.
 
-    Setup IO pins for SPI port then send initialisation commands to the SSD1306 controller inside the OLED. 
+    Setup IO pins for SPI port then send initialisation commands to the SSD1306 controller inside the OLED.
 */
-void MicroOLED::begin() 
-{	
+void MicroOLED::begin()
+{
+	setup();
+	initialize();
+	loadSparkFunLogo();
+}
+
+/** \brief Setup IO pins for SPI port.
+
+    Setup IO pins for SPI port
+*/
+void MicroOLED::setup()
+{
+	clear(PAGE);
+
 	// default 5x7 font
 	setFontType(0);
 	setColor(WHITE);
@@ -200,7 +210,14 @@ void MicroOLED::begin()
 	digitalWrite(rstPin, LOW);	// Bring RST low, reset the display
 	delay(10);	// wait 10ms
 	digitalWrite(rstPin, HIGH);	// Set RST HIGH, bring out of reset
+}
 
+/** \brief Initialisation of MicroOLED.
+
+    Send initialisation commands to the SSD1306 controller inside the OLED.
+*/
+void MicroOLED::initialize()
+{
 	// Display Init sequence for 64x48 OLED module
 	command(DISPLAYOFF);			// 0xAE
 
@@ -922,4 +939,13 @@ void MicroOLED::drawBitmap(uint8_t * bitArray)
 {
   for (int i=0; i<(LCDWIDTH * LCDHEIGHT / 8); i++)
     screenmemory[i] = bitArray[i];
+}
+
+/** \brief Horizontal flip.
+
+    Flip the graphics on the OLED horizontally.
+*/
+void MicroOLED::loadSparkFunLogo(void)
+{
+	drawBitmap(sparkfunLogoBitmap);
 }

@@ -129,8 +129,13 @@ public:
 	MicroOLED(uint8_t rst, uint8_t dc, uint8_t cs, uint8_t wr, uint8_t rd, 
 			  uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, 
 			  uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
-	
+
+	// Call begin()
 	void begin(void);
+	// or call these pair
+	void setup(void);
+	void initialize(void);
+
 	virtual size_t write(uint8_t);
 
 	// RAW LCD functions
@@ -188,8 +193,12 @@ public:
 	void scrollStop(void);
 	void flipVertical(boolean flip);
 	void flipHorizontal(boolean flip);
-	
+
+	// SparkFun Splash Screen
+	void loadSparkFunLogo(void);
+
 private:
+	uint8_t screenmemory[384];
 	uint8_t csPin, dcPin, rstPin;
 	uint8_t wrPin, rdPin, dPins[8];
 	volatile uint8_t *wrport, *wrreg, *rdport, *rdreg;
