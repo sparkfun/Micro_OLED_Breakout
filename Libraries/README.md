@@ -23,7 +23,10 @@ Distributed as-is; no warranty is given.
 
 
 BUILD INSTRUCTIONS:
+---------------------
+To get the most up-to-date version of the library, you must use the following git subtree commands.
 
-$git subtree add -P <DIRECTORY NAME> --squash <git repo URL> <ref>
+$git subtree add -P Libraries/Arduino --squash https://github.com/sparkfun/SparkFun_Micro_OLED_Arduino_Library master
 
-$git subtree pull -P <DIRECTORY NAME> --squash <git repo URL> <ref>
+$git subtree pull -P Libraries/Arduino --squash https://github.com/sparkfun/SparkFun_Micro_OLED_Arduino_Library master
+
