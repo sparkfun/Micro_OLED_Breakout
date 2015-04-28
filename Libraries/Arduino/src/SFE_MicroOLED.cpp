@@ -275,6 +275,7 @@ void MicroOLED::data(uint8_t c) {
 	if (interface == MODE_SPI)
 	{
 		digitalWrite(dcPin, HIGH);	// DC HIGH for a data byte
+
 		spiTransfer(c); 		// Transfer the data byte
 	}
 	else if (interface == MODE_I2C)
