@@ -6,6 +6,11 @@ Jim Lindblom @ SparkFun Electronics
 October 26, 2014
 https://github.com/sparkfun/Micro_OLED_Breakout/tree/master/Firmware/Arduino/libraries/SFE_MicroOLED
 
+Modified by:
+Emil Varughese @ Edwin Robotics Pvt. Ltd.
+July 27, 2015
+https://github.com/emil01/SparkFun_Micro_OLED_Arduino_Library/
+
 This file defines the hardware interface(s) for the Micro OLED Breakout. Those
 interfaces include SPI, I2C and a parallel bus.
 
@@ -41,12 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 **/
 void MicroOLED::spiSetup()
 {
-	// Gather the CS pin's PORT, PIN, and DDR registers. Writing
-	// these directly will make things much faster.
-	ssport		= portOutputRegister(digitalPinToPort(csPin));
-	sspinmask	= digitalPinToBitMask(csPin);
-	ssreg		= portModeRegister(digitalPinToPort(csPin));
-	
 	// Initialize the pins:
 	pinMode(MOSI, OUTPUT);	// MOSI is an OUTPUT
 	pinMode(SCK, OUTPUT);	// SCK is an OUTPUT
@@ -67,7 +66,9 @@ void MicroOLED::spiSetup()
 **/
 void MicroOLED::spiTransfer(byte data)
 {
+  digitalWrite(csPin, LOW);
 	SPI.transfer(data);	
+  digitalWrite(csPin, HIGH);
 }
 
 /** \brief Initialize the I2C Interface
@@ -79,9 +80,6 @@ void MicroOLED::i2cSetup()
 {
 	// Initialize Wire library (I2C)
 	Wire.begin();
-	
-	// SCL frequency = (F_CPU) / (16 + 2(TWBR) * (prescalar))
-	TWBR = ((F_CPU / I2C_FREQ) - 16) / 2;
 }
 
 /** \brief  Write a byte over I2C
@@ -105,21 +103,6 @@ void MicroOLED::i2cWrite(byte address, byte dc, byte data)
 **/
 void MicroOLED::parallelSetup()
 {
-	// Gather the CS pin's PORT, PIN and DDR registers.
-	ssport		= portOutputRegister(digitalPinToPort(csPin));
-	sspinmask	= digitalPinToBitMask(csPin);
-	ssreg		= portModeRegister(digitalPinToPort(csPin));
-	
-	// Gather the WR pin's PORT, PIN and DDR registers.
-	wrport		= portOutputRegister(digitalPinToPort(wrPin));
-	wrpinmask	= digitalPinToBitMask(wrPin);
-	wrreg		= portModeRegister(digitalPinToPort(wrPin));
-	
-	// Gather the RD pin's PORT, PIN and DDR registers.
-	rdport		= portOutputRegister(digitalPinToPort(rdPin));
-	rdpinmask	= digitalPinToBitMask(rdPin);
-	rdreg		= portModeRegister(digitalPinToPort(rdPin));
-	
 	// Initialize WR, RD, CS and data pins as outputs.
 	pinMode(wrPin, OUTPUT);
 	digitalWrite(wrPin, HIGH);
@@ -146,18 +129,12 @@ void MicroOLED::parallelWrite(byte data, byte dc)
 	
 	// chip select high->low
 	digitalWrite(csPin, LOW);
-	//*ssport &= ~sspinmask;		// SS LOW
 	
 	// dc high or low
 	digitalWrite(dcPin, dc);
-	/*if (dc)
-		*dcport |= dcpinmask;	// DC HIGH
-	else
-		*dcport &= ~dcpinmask;  // DC pin LOW*/
 	
 	// wr high->low
 	digitalWrite(wrPin, LOW);
-	//*wrport &= ~wrpinmask;		// SS LOW
 	
 	// set data pins
 	for (int i=0; i<8; i++)
@@ -167,13 +144,11 @@ void MicroOLED::parallelWrite(byte data, byte dc)
 		else
 			digitalWrite(dPins[i], LOW);
 	}
-	//PORTD = data;
 	
 	// wr low->high
 	digitalWrite(wrPin, HIGH);
-	//*wrport |= wrpinmask;	// SS HIGH
 		
 	// cs high
 	digitalWrite(csPin, HIGH);
-	//*ssport |= sspinmask;	// SS HIGH
 }
+
