@@ -11,8 +11,7 @@ Repository Contents
 -------------------
 
 * **/examples** - Example sketches for the library (.ino). Run these from the Arduino IDE.
-* **/extras** - Additional documentation for the user. These files are ignored by the IDE.
-* **/src** - Source files for the library (.cpp, .h).
+* * **/src** - Source files for the library (.cpp, .h).
 * **keywords.txt** - Keywords from this library that will be highlighted in the Arduino IDE.
 * **library.properties** - General library properties for the Arduino package manager.
 
@@ -31,7 +30,9 @@ Products that use this Library
 Version History
 ---------------
 
-* [v 1.1.0](https://github.com/sparkfun/SparkFun_Micro_OLED_Arduino_Library/tree/V_1.1.0) - Changed to remove register level pin access, for cross-platform compatibility
+* [v 1.1.2](https://github.com/sparkfun/SparkFun_Micro_OLED_Arduino_Library/tree/V_1.1.2) - Added compatibility for ESP8266
+* [v 1.1.1](https://github.com/sparkfun/SparkFun_Micro_OLED_Arduino_Library/tree/V_1.1.1) - Changed to remove register level pin access, for cross-platform compatibility
+* [v 1.1.0](https://github.com/sparkfun/SparkFun_Micro_OLED_Arduino_Library/tree/V_1.1.0) - Matching 1.6 standard
 * [V 1.0.0](https://github.com/sparkfun/SparkFun_Micro_OLED_Arduino_Library/tree/V_1.0.0) - Initial release
 
 License Information
