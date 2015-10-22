@@ -34,12 +34,20 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 #include <Arduino.h>
-#ifdef __AVR__
+#if defined(__AVR__) || defined(__arm__)
 	#include <avr/pgmspace.h>
 #else
 	#include <pgmspace.h>
 #endif
 #include <SFE_MicroOLED.h>
+
+#ifndef _BV
+#define _BV(x) (1<<x)
+#endif
+
+// The 31x48 font is handy, but uses a big chunk of flash memory - about 7k.
+// If you want to use font 4 in your sketch, uncomment out the line below:
+//#define INCLUDE_LARGE_LETTER_FONT
 
 // This fixed ugly GCC warning "only initialized variables can be placed into program memory area"
 #undef PROGMEM
@@ -50,9 +58,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "util/font8x16.h"
 #include "util/fontlargenumber.h"
 #include "util/7segment.h"
+#include "util/fontlargeletter31x48.h"
 
 // Change the total fonts included
+#ifdef INCLUDE_LARGE_LETTER_FONT
+#define TOTALFONTS		5
+#else
 #define TOTALFONTS		4
+#endif
 
 // Add the font name as declared in the header file.  Remove as many as possible to conserve FLASH memory.
 const unsigned char *MicroOLED::fontsPointer[]={
@@ -60,6 +73,9 @@ const unsigned char *MicroOLED::fontsPointer[]={
 	,font8x16
 	,sevensegment
 	,fontlargenumber
+#ifdef INCLUDE_LARGE_LETTER_FONT
+	,fontlargeletter31x48
+#endif
 };
 
 /** \brief MicroOLED screen buffer.
