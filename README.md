@@ -12,6 +12,14 @@ Repository Contents
 * **/Hardware** - All Eagle design files (.brd, .sch)
 * **/Production** - Test bed files and production panel files
 
+
+Documentation
+--------------
+
+* **[Installing an Arduino Library Guide](https://learn.sparkfun.com/tutorials/installing-an-arduino-library)** - Basic information on how to install an Arduino library.
+* **[Arduino Library Repository](https://github.com/sparkfun/SparkFun_Micro_OLED_Arduino_Library)** - Arduino library repository for the Micro OLED Breakout.
+* **[Hookup Guide](https://learn.sparkfun.com/tutorials/micro-oled-breakout-hookup-guide)** - Basic hookup guide for the Micro OLED Breakout.
+
 License Information
 -------------------
 The hardware is released under [Creative Commons Share-alike 3.0](http://creativecommons.org/licenses/by-sa/3.0/).  
